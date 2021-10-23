@@ -1,19 +1,20 @@
 package src;
 
-public class Bishop extends Piece{
+public class King extends Piece {
+
     private String chessPiece;
 
-    public Bishop(boolean whiteTurn) {
+    public King(boolean whiteTurn) {
         super(whiteTurn);
     
             this.setWhiteTurn(whiteTurn);
             //check if white piece is playing or black
             if(whiteTurn == true)
             {
-                this.chessPiece = "wB";
+                this.chessPiece = "wK";
             }
             else{
-                this.chessPiece = "bB";
+                this.chessPiece = "bK";
             }
         
     }
@@ -27,14 +28,21 @@ public class Bishop extends Piece{
 		
 		x = Math.abs(currX-prevX);
 		y = Math.abs(currY-prevY);
-
-		if (x==y){
+		
+		if (x == y && x == 1 && y == 1){
+			return true;
+		}else if (x == 0 && y == 1){
+			return true;
+		} else if (x == 1 && y == 0) {
 			return true;
 		}
+		
         return false;
     }
 
     public String toString() {
 		return this.chessPiece;
 	}
+
+    
 }
