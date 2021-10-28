@@ -3,7 +3,7 @@
 public class King extends Piece {
 
     private String chessPiece;
-
+    public boolean kingMoved = false; 
     public King(boolean whiteTurn) {
         super(whiteTurn);
     
@@ -30,8 +30,10 @@ public class King extends Piece {
 		y = Math.abs(currY-prevY);
 		
 		if (x == y && x == 1 && y == 1){
+            kingMoved = true;
 			return true;
 		}else if (x == 0 && y == 1){
+            kingMoved = true;
 			return true;
 		} else if (x == 1 && y == 0) {
 			return true;
@@ -40,6 +42,17 @@ public class King extends Piece {
         return false;
     }
 
+    public boolean isFirstMove()
+    {
+        if(kingMoved)
+        {
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+    
     public String toString() {
 		return this.chessPiece;
 	}

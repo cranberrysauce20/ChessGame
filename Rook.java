@@ -2,6 +2,7 @@
 
 public class Rook extends Piece {
     private String chessPiece;
+	public boolean rookMoved = false;
 	
 	public Rook(boolean whiteTurn) {
         super(whiteTurn);
@@ -26,6 +27,7 @@ public class Rook extends Piece {
 		y = Math.abs(currY-prevY);
 		
 		if (x == 0 && y != 0){
+			rookMoved = true;
 			return true;
 		} else if (x != 0 && y == 0) {
 			return true;
@@ -36,6 +38,16 @@ public class Rook extends Piece {
 
 	public String toString() {
 		return this.chessPiece;
+	}
+	@Override
+	public boolean isFirstMove() {
+		if(rookMoved)
+        {
+            return false;
+        }
+        else{
+            return true;
+        }
 	}
     
 }

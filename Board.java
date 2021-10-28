@@ -1,5 +1,3 @@
-
-
 public class Board {
     Piece[][] chess;
     
@@ -119,7 +117,118 @@ public class Board {
 		
 		return isClear;	
 	}
-	
+
+	public boolean move(int[] startCoord, int[] endCoord, boolean whiteMove){
+		
+		Piece thisPiece = chess[startCoord[0]][startCoord[1]];
+
+		if(thisPiece == null){
+			return false;
+		}else if((thisPiece.whiteTurn && whiteMove) || (!thisPiece.whiteTurn && !whiteMove)){
+			if(thisPiece.allowedMove(startCoord, endCoord, this)){
+				//Check if this move puts the player in check
+				Piece thatPiece = chess[endCoord[0]][endCoord[1]];
+		
+				chess[startCoord[0]][startCoord[1]] = null;
+				chess[endCoord[0]][endCoord[1]] = thisPiece;
+				
+				for(int i = 0; i < 8; i++){
+					for(int j = 0; j < 8; j++){
+						int[] tempStart = {i, j};
+						if(detectCheck(tempStart, whiteMove)){
+							//If king goes into check, replace move
+							chess[startCoord[0]][startCoord[1]] = thisPiece;
+							chess[endCoord[0]][endCoord[1]] = thatPiece;		
+							return false;
+						}
+					}
+				}
+				return true;
+			}else
+				return false;
+		}
+		return false;
+	}
+	public boolean testCastling( String from, String to)
+	{
+		int prevX = (int) from.toLowerCase().charAt(0) - (int)('a');
+		int prevY = 7 - ((int) from.toLowerCase().charAt(1) - (int)('1'));
+		int currX = (int) to.toLowerCase().charAt(0) - (int)('a');
+		int currY = 7 - ((int) from.toLowerCase().charAt(1) - (int)('1'));
+		int dx = currX - prevX;
+		String isKing = chess[prevX][prevY].toString();
+		if( isKing.equals("wK") && chess[prevX][prevY].isFirstMove() == true)
+		{
+			if(dx == 2)
+			{
+				if (chess[7][7] != null) {
+					if (chess[7][7].toString().equals("wR") ) 
+					{ 
+						if (isClear(prevX, prevY, currX, currY)) {
+							chess[prevX][prevY] = null;
+							chess[7][7] = null;
+							chess[currX][currY] = new King(true);
+							chess[5][7] = new Rook(true);
+							return true;
+						}
+					}
+				}
+			}
+			if(dx == 2)
+			{
+				if (chess[0][7] != null) { 
+
+					if (chess[0][7].toString().equalsIgnoreCase("wr") ) { 
+
+						if (isClear(prevX, prevY, currX, currY)) {
+
+							chess[prevX][prevY] = null; 
+							chess[0][7] = null; 
+							chess[currX][currY] = new King(true);
+							chess[3][7] = new Rook(true);
+							return true;
+						}
+					}
+				}
+			}
+		}
+		if(isKing.equals("bK") && chess[prevX][prevY].isFirstMove() == true)
+		{
+			if(dx == 2)
+			{
+				if (chess[7][0] != null) { 
+					if (chess[7][0].toString().equalsIgnoreCase("br") ) { 
+						if (isClear(prevX, prevY, currX, currY)) {
+							chess[prevX][prevY] = null;
+							chess[7][0] = null;
+							chess[currX][currY] = new King(false);
+							chess[5][0] = new Rook(false);
+							return true;
+						}
+					}
+				}
+			}
+			if(dx == -2)
+			{
+				if (chess[0][0] != null) { 
+
+					if (chess[0][0].toString().equals("br") ) { 
+
+						if (isClear(prevX, prevY, currX, currY)) {
+
+							chess[prevX][prevY] = null; 
+							chess[0][0] = null; 
+							chess[currX][currY] = new King(false);
+							chess[3][0] = new Rook(false);
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+
 	// method that detects if the King is check
 	public boolean detectCheck(boolean whiteturn) {
 		return false;

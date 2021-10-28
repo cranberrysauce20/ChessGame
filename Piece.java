@@ -29,6 +29,7 @@ public abstract class Piece {
     {
         this.remove = remove;
     }
+    public abstract boolean isFirstMove();
     
     public abstract String toString();
     

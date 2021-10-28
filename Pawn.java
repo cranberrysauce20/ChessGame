@@ -46,5 +46,10 @@ public class Pawn extends Piece {
     public String toString() {
 		return this.chessPiece;
 	}
+    @Override
+    public boolean isFirstMove() {
+        // TODO Auto-generated method stub
+        return false;
+    }
     
 }
