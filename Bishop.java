@@ -31,11 +31,7 @@ public class Bishop extends Piece{
 		}
         return false;
     }
-    @Override
-    public boolean isFirstMove() {
-        // TODO Auto-generated method stub
-        return false;
-    }
+    
 
     public String toString() {
 		return this.chessPiece;

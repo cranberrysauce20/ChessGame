@@ -29,8 +29,7 @@ public abstract class Piece {
     {
         this.remove = remove;
     }
-    public abstract boolean isFirstMove();
-    
+
     public abstract String toString();
     
     public abstract boolean allowedMove(int prevX, int prevY, int newX, int newY, boolean isEmpty);

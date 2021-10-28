@@ -30,27 +30,16 @@ public class King extends Piece {
 		y = Math.abs(currY-prevY);
 		
 		if (x == y && x == 1 && y == 1){
-            kingMoved = true;
+            first = false;
 			return true;
 		}else if (x == 0 && y == 1){
-            kingMoved = true;
+            first = false;
 			return true;
 		} else if (x == 1 && y == 0) {
 			return true;
 		}
 		
         return false;
-    }
-
-    public boolean isFirstMove()
-    {
-        if(kingMoved)
-        {
-            return false;
-        }
-        else{
-            return true;
-        }
     }
     
     public String toString() {
