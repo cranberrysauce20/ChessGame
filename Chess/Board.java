@@ -282,48 +282,48 @@ public class Board {
 		return false;
 	}
 /**
- * This is a method called detectEnPassant that returns true or false if it is legal to perform an en passant
- * @param oldx
- * @param oldY
- * @param newX
- * @param newY
+ * This is a method called checkEnPassant that returns true or false if it is legal to perform an en passant
+ * @param prevX
+ * @param prevY
+ * @param currX
+ * @param currY
  * 
  */
 
-	public boolean checkEnPassant(int oldX, int oldY, int newX, int newY) {
-		Chess.EliminateX = newX;
-		Chess.EliminateY = newY;
+	public boolean checkEnPassant(int prevX, int prevY, int currX, int currY) {
+		Chess.EliminateX = currX;
+		Chess.EliminateY = currY;
 
-		if (chess[newX][newY] == null) {
+		if (chess[currX][currY] == null) {
 			return false;
 		}
 
-		if (!(chess[newX][newY].toString().equalsIgnoreCase("wp")
-				|| chess[newX][newY].toString().equalsIgnoreCase("bp"))) {
+		if (!(chess[currX][currY].toString().equalsIgnoreCase("wp")
+				|| chess[currX][currY].toString().equalsIgnoreCase("bp"))) {
 			return false;
 		}
-		if (Math.abs(newY - oldY) != 2) { 
+		if (Math.abs(currX - prevY) != 2) { 
 			return false;
 		}
 
-		int tempx = newX - 1;
+		int x = currX - 1;
 
-		if (tempx >= 0) {
-			Chess.Capturer1X = tempx;
-			Chess.Capturer1Y = newY;
+		if (x >= 0) {
+			Chess.Capturer1X = x;
+			Chess.Capturer1Y = currY;
 
-			if (chess[tempx][newY] != null) {
-				if (chess[tempx][newY].toString().equalsIgnoreCase("wp") && Chess.ifWhiteTurn == false) {
+			if (chess[x][currY] != null) {
+				if (chess[x][currY].toString().equalsIgnoreCase("wp") && Chess.ifWhiteTurn == false) {
 					Chess.enPassant = true;
-					Chess.X = newX;
+					Chess.X = currX;
 					Chess.Y = 2;
 
 					return true;
 				}
 
-				if (chess[tempx][newY].toString().equalsIgnoreCase("bp") && Chess.ifWhiteTurn == true) {
+				if (chess[x][currX].toString().equalsIgnoreCase("bp") && Chess.ifWhiteTurn == true) {
 					Chess.enPassant = true;
-					Chess.X = newX;
+					Chess.X = currX;
 					Chess.Y = 5;
 
 					return true;
@@ -331,44 +331,44 @@ public class Board {
 			}
 		}
 
-		tempx = newX + 1;
-		if (tempx <= 7) {
-			Chess.Capturer2X = tempx;
-			Chess.Capturer2Y = newY;
-			if (chess[tempx][newY] != null) {
-				if (chess[tempx][newY].toString().equalsIgnoreCase("wp") && Chess.ifWhiteTurn == false) {
+		x = currX + 1;
+		if (x <= 7) {
+			Chess.Capturer2X = x;
+			Chess.Capturer2Y = currY;
+			if (chess[x][currY] != null) {
+				if (chess[x][currY].toString().equalsIgnoreCase("bp") && Chess.ifWhiteTurn == true) {
 					Chess.enPassant = true;
-					Chess.X = newX;
+					Chess.X = currX;
+					Chess.Y = 5;
+					return true;
+				}
+				if (chess[x][currY].toString().equalsIgnoreCase("wp") && Chess.ifWhiteTurn == false) {
+					Chess.enPassant = true;
+					Chess.X = currX;
 					Chess.Y = 2;
 					return true;
 				}
 
-				if (chess[tempx][newY].toString().equalsIgnoreCase("bp") && Chess.ifWhiteTurn == true) {
-					Chess.enPassant = true;
-					Chess.X = newX;
-					Chess.Y = 5;
-					return true;
-				}
+				
 			}
 		}
 
 		return false;
 	}
 /**
- * This is a method called testEnPassant that allows king to move two spaces to its right or left,
- * while the rook on that side moves to the opposite side of the king.
- * @param oldx
- * @param oldY
- * @param newX
- * @param newY
+ * This is a method called doEnPassant that performs the special move en Passant in the chess game.
+ * @param prevX
+ * @param prevY
+ * @param currX
+ * @param currY
  * 
  */
-	public boolean doEnPassant(int oldX, int oldY, int newX, int newY) {
-		if (((Chess.Capturer1X == oldX) && (Chess.Capturer1Y == oldY)) || ((Chess.Capturer2X == oldX) && (Chess.Capturer2Y == oldY))) {
-			if (newX == Chess.X && newY == Chess.Y) {
+	public boolean doEnPassant(int prevX, int prevY, int currX, int currY) {
+		if (((Chess.Capturer1X == prevX) && (Chess.Capturer1Y == prevY)) || ((Chess.Capturer2X == prevX) && (Chess.Capturer2Y == prevY))) {
+			if (currX == Chess.X && currY == Chess.Y) {
 				chess[Chess.EliminateX][Chess.EliminateY] = null;
-				chess[newX][newY] = chess[oldX][oldY];
-				chess[oldX][oldY] = null;
+				chess[currX][currY] = chess[prevX][prevY];
+				chess[prevX][prevY] = null;
 
 				return true;
 			}
