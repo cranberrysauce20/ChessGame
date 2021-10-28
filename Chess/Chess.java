@@ -195,35 +195,35 @@ public class Chess {
 	 /**
      * Takes in the coordinates of the pawn and it replaces the the current pawn with the promotion in it's position
      * 
-     * @param newx  x value of pawn
-     * @param newy  y value of pawn
+     * @param currX  x value of pawn
+     * @param currY  y value of pawn
      */ 
-	public static void promotePawn(int newx, int newy) {
-		if (gameboard.chess[newx][newy].toString().equalsIgnoreCase("wp") && newy == 0) {
+	public static void promotePawn(int currX, int currY) {
+		if (gameboard.chess[currX][currY].toString().equalsIgnoreCase("wp") && currY == 0) {
 			if (thirdValue == null || thirdValue.equals("q") || thirdValue.equals("Q")) {
-				gameboard.chess[newx][newy] = new Queen(true);
+				gameboard.chess[currX][currY] = new Queen(true);
 
 			} else if (thirdValue.equals("r") || thirdValue.equals("R")) {
-				gameboard.chess[newx][newy] = new Rook(true);
+				gameboard.chess[currX][currY] = new Rook(true);
 
 			} else if (thirdValue.equals("b") || thirdValue.equals("B")) {
-				gameboard.chess[newx][newy] = new Bishop(true);
+				gameboard.chess[currX][currY] = new Bishop(true);
 
 			} else if (thirdValue.equals("n") || thirdValue.equals("N")) {
-				gameboard.chess[newx][newy] = new Knight(true);
+				gameboard.chess[currX][currY] = new Knight(true);
 			}
-		} else if (gameboard.chess[newx][newy].toString().equalsIgnoreCase("bp") && newy == 7) {
+		} else if (gameboard.chess[currX][currY].toString().equalsIgnoreCase("bp") && currY == 7) {
 			if (thirdValue == null || thirdValue.equals("q") || thirdValue.equals("Q")) {
-				gameboard.chess[newx][newy] = new Queen(false);
+				gameboard.chess[currX][currY] = new Queen(false);
 
 			} else if (thirdValue.equals("r") || thirdValue.equals("R")) {
-				gameboard.chess[newx][newy] = new Rook(false);
+				gameboard.chess[currX][currY] = new Rook(false);
 
 			} else if (thirdValue.equals("b") || thirdValue.equals("B")) {
-				gameboard.chess[newx][newy] = new Bishop(false);
+				gameboard.chess[currX][currY] = new Bishop(false);
 
 			} else if (thirdValue.equals("n") || thirdValue.equals("N")) {
-				gameboard.chess[newx][newy] = new Knight(false);
+				gameboard.chess[currX][currY] = new Knight(false);
 
 			}
 		}
@@ -236,11 +236,11 @@ public class Chess {
 
 	public static void move() {
 		//convert the prev and current locations into numbers we can use 
-		int oldx = (int) prevLoc.toLowerCase().charAt(0) - (int)('a');
-		int oldy = 7 - ((int) prevLoc.toLowerCase().charAt(1) - (int)('1'));
+		int prevX = (int) prevLoc.toLowerCase().charAt(0) - (int)('a');
+		int prevY = 7 - ((int) prevLoc.toLowerCase().charAt(1) - (int)('1'));
 
-		int newx = (int) currLoc.toLowerCase().charAt(0) - (int)('a');
-		int newy = 7 - ((int) currLoc.toLowerCase().charAt(1) - (int)('1'));
+		int currX = (int) currLoc.toLowerCase().charAt(0) - (int)('a');
+		int currY = 7 - ((int) currLoc.toLowerCase().charAt(1) - (int)('1'));
 
 		// if (legalInput(oldx, oldy, newx, newy) == false) { // are the coordinates entered legal?
 		// 	System.out.println("Invalid file and rank. Please try again.");
@@ -253,14 +253,14 @@ public class Chess {
 		// 	return;
 		// }
 
-		if (ifWhiteTurn != gameboard.chess[oldx][oldy].isWhite()) {
+		if (ifWhiteTurn != gameboard.chess[prevX][prevY].isWhite()) {
 			System.out.println("Illegal move, try again.");
 			return;
 		}
 
 		boolean isNewSpotEmpty = true;
-		if (gameboard.chess[newx][newy] != null) {
-			if (gameboard.chess[newx][newy].isWhite() == ifWhiteTurn) {
+		if (gameboard.chess[currX][prevY] != null) {
+			if (gameboard.chess[currX][prevY].isWhite() == ifWhiteTurn) {
 				System.out.println("Illegal move, try again.");
 				return;
 			}
@@ -268,7 +268,7 @@ public class Chess {
 		}
 
 		if (gameboard.testCastling(prevLoc, currLoc)) {
-			gameboard.chess[newx][newy].first = false;
+			gameboard.chess[currX][prevY].first = false;
 
 			ifWhiteTurn = !ifWhiteTurn;
 			return;
@@ -276,34 +276,34 @@ public class Chess {
 
 		if (enPassant == true) {
 			enPassant = false;
-			if (gameboard.doEnPassant(oldx, oldy, newx, newy) == true) {
-				gameboard.chess[newx][newy].first = false;
+			if (gameboard.doEnPassant(prevX, prevY, currX, prevY) == true) {
+				gameboard.chess[currX][prevY].first = false;
 
 				ifWhiteTurn = !ifWhiteTurn;
 				return;
 			}
 		}
 
-		if (gameboard.isClear(oldx, oldy, newx, newy) == false) {
+		if (gameboard.isClear(prevX, prevY, currX, prevY) == false) {
 			System.out.println("Illegal move, try again.");
 			return;
 		}
 
-		if (gameboard.chess[oldx][oldy].allowedMove(oldx, oldy, newx, newy, isNewSpotEmpty) == false) {
+		if (gameboard.chess[prevX][prevY].allowedMove(prevX, prevY, currX, prevY, isNewSpotEmpty) == false) {
 			System.out.println("Illegal move, try again.");
 			return;
 		}
 
-		gameboard.chess[newx][newy] = gameboard.chess[oldx][oldy];
-		gameboard.chess[newx][newy].first = false;
+		gameboard.chess[currX][prevY] = gameboard.chess[prevX][prevY];
+		gameboard.chess[currX][prevY].first = false;
 
-		if (gameboard.chess[newx][newy].toString().equalsIgnoreCase("wp") || gameboard.chess[newx][newy].toString().equalsIgnoreCase("bp")) {
-			promotePawn(newx, newy);
+		if (gameboard.chess[prevX][prevY].toString().equalsIgnoreCase("wp") || gameboard.chess[prevX][prevY].toString().equalsIgnoreCase("bp")) {
+			promotePawn(currX, prevY);
 		}
 
-		gameboard.chess[oldx][oldy] = null;
+		gameboard.chess[prevX][prevY] = null;
 
-		if (gameboard.checkEnPassant(oldx, oldy, newx, newy)) {
+		if (gameboard.checkEnPassant(prevX, prevY, currX, prevY)) {
 			System.out.println("en passant");
 		}
 		ifWhiteTurn = !ifWhiteTurn;
