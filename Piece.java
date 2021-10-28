@@ -1,4 +1,4 @@
-package src;
+
 
 public abstract class Piece {
     private boolean whiteTurn = false;

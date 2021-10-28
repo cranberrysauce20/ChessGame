@@ -1,5 +1,3 @@
-package src;
-
 public class Bishop extends Piece{
     private String chessPiece;
 
