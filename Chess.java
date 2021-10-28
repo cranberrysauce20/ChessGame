@@ -5,7 +5,7 @@ import java.util.StringTokenizer;
 import java.util.Scanner;
 
 /**
- * This is Main class that program runs first
+ * This is Main class that program runs the Chess game
  * 
  * @author Sujay Sayini
  * @author Pauleene Jordan
@@ -31,6 +31,13 @@ public class Chess {
 	public static int enPassantCapturer2X;
 	public static int enPassantCapturer2Y;
 
+	/**
+ * This is a method called main that incorporates all of the different methods together to run the game.
+ * It also receives the input of the players. 
+ * @param args
+ * @author Sujay Sayini
+ * @author Pauleene Jordan
+ */
 	public static void main(String[] args) {
 		// initialize game
 		// BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
@@ -101,7 +108,12 @@ public class Chess {
 	// gameboard = new Board();
 	// }
 
-	// makes the chess board
+	/**
+ * This is a method called makeChessBoard that prints out the chessboard.
+ * 
+ * @author Sujay Sayini
+ * @author Pauleene Jordan
+ */
 	public static void makeChessBoard() {
 		String[][] chessBoard = new String[8][8];
 
@@ -150,7 +162,14 @@ public class Chess {
 
 	// }
 
-	// receives the input of the player
+	/**
+ * This is a method called allowedMove that receives the input of the player
+ * 
+ * @param input
+ * @author Sujay Sayini
+ * @author Pauleene Jordan
+ */
+
 	public static void playerInput(String input) {
 		StringTokenizer string = null;
 		int count = 0;
@@ -221,12 +240,15 @@ public class Chess {
 		thirdValue = null;
 
 	}
-	 /**
-     * Takes in the coordinates of the pawn and it replaces the the current pawn with the promotion in it's position
-     * 
-     * @param newx  x value of pawn
+	 
+	/**
+ * This is a method called promotePawn that allows the pawn to move if the move is legal 
+ * 
+ * * @param newx  x value of pawn
      * @param newy  y value of pawn
-     */ 
+ * @author Sujay Sayini
+ * @author Pauleene Jordan
+ */
 	public static void promotePawn(int newx, int newy) {
 		if (gameboard.chess[newx][newy].toString().equalsIgnoreCase("wp") && newy == 0) {
 			if (thirdValue == null || thirdValue.equals("q") || thirdValue.equals("Q")) {
@@ -258,10 +280,14 @@ public class Chess {
 		}
 	}
 
-	 /**
-     * This function takes care of the piece moving from the previous location to the new location
-     * 
-     */
+	/**
+ * This is a method called move that takes care of the piece moving from the previous location to the new location 
+ * 
+ * * 
+ * @author Sujay Sayini
+ * @author Pauleene Jordan
+ */
+	
 
 	public static void move() {
 		//convert the prev and current locations into numbers we can use 

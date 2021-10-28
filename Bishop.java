@@ -1,4 +1,12 @@
+/**
+ * This is Bishop class and it implements the Bishop chesspieces
+ * 
+ * @author Sujay Sayini
+ * @author Pauleene Jordan
+ */
+
 public class Bishop extends Piece{
+    
     private String chessPiece;
 
     public Bishop(boolean whiteTurn) {
@@ -11,8 +19,17 @@ public class Bishop extends Piece{
             this.chessPiece = "bB";
 
     }
-
-    // checks if Bishop is allowed to move
+/**
+ * This is a method called allowedMove that checks if the move that 
+ * Bishop is about to do is legal. If the move is legal, it returns true and false, if not.
+ * @param prevX
+ * @param prevY
+ * @param currX
+ * @param currY
+ * @param isEmpty
+ * @author Sujay Sayini
+ * @author Pauleene Jordan
+ */
     @Override
     public boolean allowedMove(int prevX, int prevY, int currX, int currY, boolean isEmpty) {
         // change in x and y
@@ -28,7 +45,13 @@ public class Bishop extends Piece{
         // return false;
     }
     
-
+/**
+ * This is a method called toString from the abstract class Piece and it returns the name of the chesspiece
+ * e.g. wB or bB
+ * 
+ * @author Sujay Sayini
+ * @author Pauleene Jordan
+ */
     public String toString() {
         return this.chessPiece;
     }

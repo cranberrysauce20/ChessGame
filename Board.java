@@ -1,12 +1,29 @@
+/**
+ * This is Board class and it implements the methods that would be used on Chess class 
+ * 
+ * @author Sujay Sayini
+ * @author Pauleene Jordan
+ */
 public class Board {
     Piece[][] chess;
-    
+    /**
+ * This is a method called Board that checks that declares the chessboard
+ * 
+ * @author Sujay Sayini
+ * @author Pauleene Jordan
+ */
     public Board()
     {
         chess = new Piece[8][8];
         defaultBoard();
     }
-
+/**
+ * This is a method called defaultBoard that checks that initializes the chessboard. 
+ * The method creates the chessboard before the game starts
+ * 
+ * @author Sujay Sayini
+ * @author Pauleene Jordan
+ */
     public void defaultBoard(){
         for (int i = 0; i < 8; i++){
 			for (int j = 0; j < 8; j++){
@@ -44,7 +61,16 @@ public class Board {
 
     }
 
-    //checks to see if a chess piece is blocking the path for the chess piece to move 
+	/**
+ * This is a method called isClear that checks to see if a chess piece is blocking the path for the chess piece to move 
+ * @param prevX
+ * @param prevY
+ * @param currX
+ * @param currY
+ * @author Sujay Sayini
+ * @author Pauleene Jordan
+ */
+
     public boolean isClear(int prevX, int prevY, int currX, int currY){
 		boolean isClear = true;
         int x, y, deltaX, deltaY, oldX, oldY;
@@ -118,37 +144,14 @@ public class Board {
 		return isClear;	
 	}
 
-	public boolean move(int[] startCoord, int[] endCoord, boolean whiteMove){
-		
-		Piece thisPiece = chess[startCoord[0]][startCoord[1]];
-
-		if(thisPiece == null){
-			return false;
-		}else if((thisPiece.ifWhiteTurn && whiteMove) || (!thisPiece.ifWhiteTurn && !whiteMove)){
-			if(thisPiece.allowedMove(startCoord, endCoord, this)){
-				//Check if this move puts the player in check
-				Piece thatPiece = chess[endCoord[0]][endCoord[1]];
-		
-				chess[startCoord[0]][startCoord[1]] = null;
-				chess[endCoord[0]][endCoord[1]] = thisPiece;
-				
-				for(int i = 0; i < 8; i++){
-					for(int j = 0; j < 8; j++){
-						int[] tempStart = {i, j};
-						if(detectCheck(tempStart, whiteMove)){
-							//If king goes into check, replace move
-							chess[startCoord[0]][startCoord[1]] = thisPiece;
-							chess[endCoord[0]][endCoord[1]] = thatPiece;		
-							return false;
-						}
-					}
-				}
-				return true;
-			}else
-				return false;
-		}
-		return false;
-	}
+	/**
+ * This is a method called testCastling that allows king to move two spaces to its right or left,
+ * while the rook on that side moves to the opposite side of the king.
+ * @param from
+ * @param to
+ * @author Sujay Sayini
+ * @author Pauleene Jordan
+ */
 	public boolean testCastling( String from, String to)
 	{
 		int prevX = (int) from.toLowerCase().charAt(0) - (int)('a');
@@ -233,7 +236,12 @@ public class Board {
 		return false;
 	}
 
-	// method that detects if the King is check
+/**
+ * This is a method called deteckCheck that checks if the King is check
+ * @param whiteturn
+ * @author Sujay Sayini
+ * @author Pauleene Jordan
+ */
 	public boolean detectCheck(boolean whiteturn) {
 		int kingLocX = 0;
 		int kingLocY = 0;
@@ -299,7 +307,15 @@ public class Board {
 		}
 		return false;
 	}
-
+/**
+ * This is a method called detectEnPassant that returns true or false if it is legal to perform an en passant
+ * @param oldx
+ * @param oldY
+ * @param newX
+ * @param newY
+ * @author Sujay Sayini
+ * @author Pauleene Jordan
+ */
 	public boolean detectEnPassant(int oldX, int oldY, int newX, int newY) { //call this after the move had been performed for this turn
 		Chess.enPassantToEliminateX = newX;
 		Chess.enPassantToEliminateY = newY;
@@ -370,7 +386,16 @@ public class Board {
 		
 		return false;
 	}
-	
+	/**
+ * This is a method called testEnPassant that allows king to move two spaces to its right or left,
+ * while the rook on that side moves to the opposite side of the king.
+ * @param oldx
+ * @param oldY
+ * @param newX
+ * @param newY
+ * @author Sujay Sayini
+ * @author Pauleene Jordan
+ */
 	public  boolean testEnPassant(int oldX, int oldY, int newX, int newY) {
 		if (((Chess.enPassantCapturer1X == oldX) && (Chess.enPassantCapturer1Y == oldY)) || ((Chess.enPassantCapturer2X == oldX) && (Chess.enPassantCapturer2Y == oldY))) {
 			if (newX == Chess.enPassantX && newY == Chess.enPassantY) {

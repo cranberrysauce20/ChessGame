@@ -1,3 +1,9 @@
+/**
+ * This is King class and it implements the King chesspiece
+ * 
+ * @author Sujay Sayini
+ * @author Pauleene Jordan
+ */
 
 public class King extends Piece {
 

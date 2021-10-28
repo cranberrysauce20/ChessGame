@@ -1,4 +1,9 @@
-
+/**
+ * This is Knight class and it implements the Knight chesspieces
+ * 
+ * @author Sujay Sayini
+ * @author Pauleene Jordan
+ */
 public class Knight extends Piece {
 
 	private String chessPiece;
