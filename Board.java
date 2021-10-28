@@ -157,7 +157,7 @@ public class Board {
 		int currY = 7 - ((int) from.toLowerCase().charAt(1) - (int)('1'));
 		int dx = currX - prevX;
 		String isKing = chess[prevX][prevY].toString();
-		if( isKing.equals("wK") && chess[prevX][prevY].isFirstMove() == true)
+		if( isKing.equals("wK") && chess[prevX][prevY].first == true)
 		{
 			if(dx == 2)
 			{
@@ -168,6 +168,7 @@ public class Board {
 							chess[prevX][prevY] = null;
 							chess[7][7] = null;
 							chess[currX][currY] = new King(true);
+							chess[currX][currY].first = false;
 							chess[5][7] = new Rook(true);
 							return true;
 						}
@@ -185,6 +186,7 @@ public class Board {
 							chess[prevX][prevY] = null; 
 							chess[0][7] = null; 
 							chess[currX][currY] = new King(true);
+							chess[currX][currY].first = false;
 							chess[3][7] = new Rook(true);
 							return true;
 						}
@@ -192,7 +194,7 @@ public class Board {
 				}
 			}
 		}
-		if(isKing.equals("bK") && chess[prevX][prevY].isFirstMove() == true)
+		if(isKing.equals("bK") && chess[prevX][prevY].first == true)
 		{
 			if(dx == 2)
 			{
@@ -202,6 +204,7 @@ public class Board {
 							chess[prevX][prevY] = null;
 							chess[7][0] = null;
 							chess[currX][currY] = new King(false);
+							chess[currX][currY].first = false;
 							chess[5][0] = new Rook(false);
 							return true;
 						}
@@ -219,6 +222,7 @@ public class Board {
 							chess[prevX][prevY] = null; 
 							chess[0][0] = null; 
 							chess[currX][currY] = new King(false);
+							chess[currX][currY].first = false;
 							chess[3][0] = new Rook(false);
 							return true;
 						}
