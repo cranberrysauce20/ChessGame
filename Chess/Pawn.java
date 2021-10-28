@@ -1,3 +1,9 @@
+/**
+ * This is Pawn class for chess piece that extends Piece abstract class
+ * 
+ * @author Sujay Sayini
+ * @author Pauleene Jordan
+ */
 
 public class Pawn extends Piece {
 
@@ -6,8 +12,6 @@ public class Pawn extends Piece {
     public Pawn(boolean whiteTurn) {
         super(whiteTurn);
 
-        // this.setWhiteTurn(whiteTurn);
-        // check if white piece is playing or black
         if (whiteTurn == true) {
             this.chessPiece = "wp";
         } else {
@@ -16,7 +20,13 @@ public class Pawn extends Piece {
 
     }
 
-    // checks if King is allowed to move
+    /**
+	 * Check to see if the piece is allowed to move to the destination or not.
+	 *
+	 * @return true if it is allowed to 
+     * @return false if it is not allowed to 
+     * 
+	 */
     @Override
     public boolean allowedMove(int prevX, int prevY, int currX, int currY, boolean isEmpty) {
         // change in x and y

@@ -1,24 +1,29 @@
+
 /**
- * This is Knight class and it implements the Knight chesspieces
+ * This is Knight class for chess piece that extends Piece abstract class
  * 
  * @author Sujay Sayini
  * @author Pauleene Jordan
  */
 public class Knight extends Piece {
-
 	private String chessPiece;
 
 	public Knight(boolean whiteTurn) {
 		super(whiteTurn);
 
-		// this.setWhiteTurn(whiteTurn);
-		// check if white piece is playing or black
 		if (whiteTurn) {
 			this.chessPiece = "wN";
 		} else {
 			this.chessPiece = "bN";
 		}
 	}
+	/**
+	 * Check to see if the piece is allowed to move to the destination or not.
+	 *
+	 * @return true if it is allowed to 
+     * @return false if it is not allowed to 
+     * 
+	 */
 
 	public boolean allowedMove(int prevX, int prevY, int currX, int currY, boolean isEmpty) {
 
@@ -31,10 +36,6 @@ public class Knight extends Piece {
 		} else {
 			return false;
 		}
-		// } else if (x == 1 && y == 2) {
-		// return true;
-		// }
-		// return false;
 	}
 
 	public String toString() {

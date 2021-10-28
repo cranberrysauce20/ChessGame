@@ -1,31 +1,36 @@
 
+/**
+ * This is Rook class for chess piece that extends Piece abstract class
+ * 
+ * @author Sujay Sayini
+ * @author Pauleene Jordan
+ */
 
 public class Rook extends Piece {
     private String chessPiece;
-	public boolean rookMoved = false;
 	
 	public Rook(boolean whiteTurn) {
 		super(whiteTurn);
 
-		// this.setWhiteTurn(whiteTurn);
-		// check if white piece is playing or black
 		if (whiteTurn)
 			this.chessPiece = "wR";
 		else
 			this.chessPiece = "bR";
 	}
+	 /**
+	 * Check to see if the piece is allowed to move to the destination or not.
+	 *
+	 * @return true if it is allowed to 
+     * @return false if it is not allowed to 
+     * 
+	 */
     public boolean allowedMove(int prevX, int prevY, int currX, int currY, boolean isEmpty){
-
-		// change in x
-		int x;
-        //change in y
-		int y;
 		
-		x = Math.abs(currX-prevX);
-		y = Math.abs(currY-prevY);
+		int x = Math.abs(currX-prevX);
+		int y = Math.abs(currY-prevY);
 		
 		if (x == 0 && y != 0){
-			first = true;
+			this.first = true;
 			return true;
 		} else if (x != 0 && y == 0) {
 			return true;
@@ -36,6 +41,4 @@ public class Rook extends Piece {
 	public String toString() {
 		return this.chessPiece;
 	}
-	
-    
 }

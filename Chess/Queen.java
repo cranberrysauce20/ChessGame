@@ -14,9 +14,14 @@ public class Queen extends Piece {
 			this.chessPiece = "bQ";
 
 	}
-
+	 /**
+	 * Check to see if the piece is allowed to move to the destination or not.
+	 *
+	 * @return true if it is allowed to 
+     * @return false if it is not allowed to 
+     * 
+	 */
 	public boolean allowedMove(int prevX, int prevY, int currX, int currY, boolean isEmpty) {
-
 		// change in x and y
 
 		int x = Math.abs(currX - prevX);
@@ -31,9 +36,6 @@ public class Queen extends Piece {
 
 		return false;
 	}
-
-	
-
 	public String toString() {
 		return this.chessPiece;
 	}
