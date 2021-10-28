@@ -1,24 +1,20 @@
 
-
 public class King extends Piece {
 
     private String chessPiece;
     public boolean kingMoved = false; 
     public King(boolean whiteTurn) {
         super(whiteTurn);
-    
-            this.setWhiteTurn(whiteTurn);
-            //check if white piece is playing or black
-            if(whiteTurn == true)
-            {
-                this.chessPiece = "wK";
-            }
-            else{
-                this.chessPiece = "bK";
-            }
-        
+        // this.setWhiteTurn(whiteTurn);
+        // check if white piece is playing or black
+        if (whiteTurn)
+            this.chessPiece = "wK";
+        else
+            this.chessPiece = "bK";
+
     }
-// checks if King is allowed to move 
+
+    // checks if King is allowed to move
     @Override
     public boolean allowedMove(int prevX, int prevY, int currX, int currY, boolean isEmpty){
         // change in x
@@ -43,8 +39,7 @@ public class King extends Piece {
     }
     
     public String toString() {
-		return this.chessPiece;
-	}
+        return this.chessPiece;
+    }
 
-    
 }

@@ -49,7 +49,7 @@ public class Board {
 		boolean isClear = true;
         int x, y, deltaX, deltaY, oldX, oldY;
         deltaX = 0;
-        deltaY =0;
+        deltaY = 0;
 		String prevLoc = chess[prevX][prevY].toString();
 		// doesn't matter if the path is not clear if it's a knight
 		 if (prevLoc.equalsIgnoreCase("wn") || prevLoc.equalsIgnoreCase("bn")) {
@@ -124,7 +124,7 @@ public class Board {
 
 		if(thisPiece == null){
 			return false;
-		}else if((thisPiece.whiteTurn && whiteMove) || (!thisPiece.whiteTurn && !whiteMove)){
+		}else if((thisPiece.ifWhiteTurn && whiteMove) || (!thisPiece.ifWhiteTurn && !whiteMove)){
 			if(thisPiece.allowedMove(startCoord, endCoord, this)){
 				//Check if this move puts the player in check
 				Piece thatPiece = chess[endCoord[0]][endCoord[1]];
@@ -235,13 +235,157 @@ public class Board {
 
 	// method that detects if the King is check
 	public boolean detectCheck(boolean whiteturn) {
+		int kingLocX = 0;
+		int kingLocY = 0;
+		
+		if (whiteturn) { //if whiteturn is false, check if the white is in check
+			for (int y = 0; y < 8; y++){
+				for (int x = 0; x < 8; x++){
+					if (chess[x][y] != null) {
+						if (chess[x][y].toString().equalsIgnoreCase("wk")) {
+							kingLocX = x;
+							kingLocY = y;
+							break;
+						}
+					}
+				}
+			}
+			
+			for (int y = 0; y < 8; y++){
+				for (int x = 0; x < 8; x++){
+					if (chess[x][y] != null) {
+						if (chess[x][y].isWhite() == false) {
+							if (chess[x][y].allowedMove(x, y, kingLocX, kingLocY, true)) {
+								if (isClear(x, y, kingLocX, kingLocY)) {
+									//System.out.println("white king is in check by "+board[x][y].toString());
+									//System.out.println("CHECK");
+									return true;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		if (!whiteturn) {//if whiteturn is true, check if the black is in check
+			for (int y = 0; y < 8; y++){
+				for (int x = 0; x < 8; x++){
+					if (chess[x][y] != null) {
+						if (chess[x][y].toString().equalsIgnoreCase("bk")) {
+							kingLocX = x;
+							kingLocY = y;
+							break;
+						}
+					}
+				}
+			}
+
+			for (int y = 0; y < 8; y++){
+				for (int x = 0; x < 8; x++){
+					if (chess[x][y] != null) {
+						if (chess[x][y].isWhite() == true) {
+							if (chess[x][y].allowedMove(x, y, kingLocX, kingLocY, true)) {
+								if (isClear(x, y, kingLocX, kingLocY)) {
+									//System.out.println("black king is in check by "+board[x][y].toString());
+									//System.out.println("CHECK");
+									return true;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 		return false;
 	}
-    
-    //method to check for check mate
-    public boolean detectCheckmate (boolean whiteturn) {
+
+	public boolean detectEnPassant(int oldX, int oldY, int newX, int newY) { //call this after the move had been performed for this turn
+		Chess.enPassantToEliminateX = newX;
+		Chess.enPassantToEliminateY = newY;
+		
+		if (chess[newX][newY] == null) {
+			return false;
+		}
+
+		if (!(chess[newX][newY].toString().equalsIgnoreCase("wp") || chess[newX][newY].toString().equalsIgnoreCase("bp"))) { // white pawn or black is in the new location
+			return false;
+		}
+		if (Math.abs(newY - oldY) != 2) { //white pawn had just moved forward by 2
+			return false;
+		}
+		
+		int tempx = newX - 1;
+		
+		if (tempx >= 0) {
+			Chess.enPassantCapturer1X = tempx;
+			Chess.enPassantCapturer1Y = newY;
+			
+			//System.out.println("5");
+			if (chess[tempx][newY] != null) {
+				if (chess[tempx][newY].toString().equalsIgnoreCase("wp") && Chess.ifWhiteTurn == false) {
+					Chess.enPassant = true;
+					Chess.enPassantX = newX;
+					Chess.enPassantY = 2;
+					
+					return true;
+				}
+				
+				if (chess[tempx][newY].toString().equalsIgnoreCase("bp") && Chess.ifWhiteTurn == true) {
+					Chess.enPassant = true;
+					Chess.enPassantX = newX;
+					Chess.enPassantY = 5;
+					
+					return true;
+				}
+			}
+		}
+		
+	
+		tempx = newX + 1;
+		if (tempx <= 7) {
+			Chess.enPassantCapturer2X = tempx;
+			Chess.enPassantCapturer2Y = newY;
+			
+			//System.out.println("6");
+			if (chess[tempx][newY] != null) {
+				if (chess[tempx][newY].toString().equalsIgnoreCase("wp") && Chess.ifWhiteTurn == false) {
+					//System.out.println("7");
+					Chess.enPassant = true;
+					Chess.enPassantX = newX;
+					Chess.enPassantY = 2;
+					return true;
+				}
+				
+				if (chess[tempx][newY].toString().equalsIgnoreCase("bp") && Chess.ifWhiteTurn == true) {
+					//System.out.println("10");
+					Chess.enPassant = true;
+					Chess.enPassantX = newX;
+					Chess.enPassantY = 5;
+					return true;
+				}
+			}
+		}
+	
+		
 		return false;
 	}
 	
+	public  boolean testEnPassant(int oldX, int oldY, int newX, int newY) {
+		if (((Chess.enPassantCapturer1X == oldX) && (Chess.enPassantCapturer1Y == oldY)) || ((Chess.enPassantCapturer2X == oldX) && (Chess.enPassantCapturer2Y == oldY))) {
+			if (newX == Chess.enPassantX && newY == Chess.enPassantY) {
+				chess[Chess.enPassantToEliminateX][Chess.enPassantToEliminateY] = null;
+				chess[newX][newY] = chess[oldX][oldY];
+				chess[oldX][oldY] = null;
+				
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	public boolean testCastling(int oldX, int oldY, int newX, int newY) {
+		return true;
+	}
 	
 }

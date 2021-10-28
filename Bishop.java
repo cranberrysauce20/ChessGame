@@ -3,37 +3,33 @@ public class Bishop extends Piece{
 
     public Bishop(boolean whiteTurn) {
         super(whiteTurn);
-    
-            this.setWhiteTurn(whiteTurn);
-            //check if white piece is playing or black
-            if(whiteTurn == true)
-            {
-                this.chessPiece = "wB";
-            }
-            else{
-                this.chessPiece = "bB";
-            }
-        
-    }
-// checks if King is allowed to move 
-    @Override
-    public boolean allowedMove(int prevX, int prevY, int currX, int currY, boolean isEmpty){
-        // change in x
-		int x;
-        //change in y
-		int y;
-		
-		x = Math.abs(currX-prevX);
-		y = Math.abs(currY-prevY);
+        // this.setWhiteTurn(whiteTurn);
+        // check if piece is white or black
+        if (whiteTurn)
+            this.chessPiece = "wB";
+        else
+            this.chessPiece = "bB";
 
-		if (x==y){
-			return true;
-		}
-        return false;
+    }
+
+    // checks if Bishop is allowed to move
+    @Override
+    public boolean allowedMove(int prevX, int prevY, int currX, int currY, boolean isEmpty) {
+        // change in x and y
+
+        int x = Math.abs(currX - prevX);
+        int y = Math.abs(currY - prevY);
+
+        return x == y;
+
+        // if (x==y){
+        // return true;
+        // }
+        // return false;
     }
     
 
     public String toString() {
-		return this.chessPiece;
-	}
+        return this.chessPiece;
+    }
 }
