@@ -61,6 +61,8 @@ public class Board {
  * @param prevY
  * @param currX
  * @param currY
+ * @return true if the path is clear
+ * @return false if the path is not clear
  */
 
 	public boolean isClear(int prevX, int prevY, int currX, int currY) {
@@ -132,15 +134,18 @@ public class Board {
 	}
 
 /**
- * This is a method called testCastling that allows king to move two spaces to its right or left,
+ * This is a method called castling that allows king to move two spaces to its right or left,
  * while the rook on that side moves to the opposite side of the king.
  * @param from
  * @param to
+ * @return true if there is a castling 
+ * @return false if there is not a castling 
+ * 
  * 
  */
 
 
-	public boolean testCastling(String from, String to) {
+	public boolean castling(String from, String to) {
 		int prevX = (int) from.toLowerCase().charAt(0) - (int) ('a');
 		int prevY = 7 - ((int) from.toLowerCase().charAt(1) - (int) ('1'));
 		int currX = (int) to.toLowerCase().charAt(0) - (int) ('a');
@@ -218,7 +223,8 @@ public class Board {
 /**
  * This is a method called deteckCheck that checks if the King is check
  * @param whiteturn
- * 
+ * @return true if there is a check 
+ * @return false if there is a check 
  */
 	public boolean detectCheck(boolean whiteturn) {
 		int kingLocX = 0;
@@ -287,6 +293,8 @@ public class Board {
  * @param prevY
  * @param currX
  * @param currY
+ * @return true if it is legal to perform an en passant
+ * @return true if it is not legal to perform an en passant
  * 
  */
 
@@ -361,6 +369,8 @@ public class Board {
  * @param prevY
  * @param currX
  * @param currY
+ * @return true if the enpassant is successful
+ * @return true if the enpassant is not successful
  * 
  */
 	public boolean doEnPassant(int prevX, int prevY, int currX, int currY) {

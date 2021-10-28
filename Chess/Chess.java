@@ -267,8 +267,8 @@ public class Chess {
 			isNewSpotEmpty = false;
 		}
 
-		if (gameboard.testCastling(prevLoc, currLoc)) {
-			gameboard.chess[currX][prevY].first = false;
+		if (gameboard.castling(prevLoc, currLoc)) {
+			gameboard.chess[newx][newy].first = false;
 
 			ifWhiteTurn = !ifWhiteTurn;
 			return;
