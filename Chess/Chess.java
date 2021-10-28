@@ -241,15 +241,9 @@ public class Chess {
 
 		int currX = (int) currLoc.toLowerCase().charAt(0) - (int)('a');
 		int currY = 7 - ((int) currLoc.toLowerCase().charAt(1) - (int)('1'));
-
-		// if (legalInput(oldx, oldy, newx, newy) == false) { // are the coordinates entered legal?
-		// 	System.out.println("Invalid file and rank. Please try again.");
-		// 	return;
-		// }
-
 		
-		// if (gameboard.board[oldx][oldy] == null) { // is there a piece in the chosen spot?
-		// 	System.out.println("A piece does not exist in this spot. Please try again.");
+		// if (gameboard.chess[prevX][prevY] == null) {
+		// 	System.out.println("Illegal move, try again.");
 		// 	return;
 		// }
 
@@ -259,8 +253,8 @@ public class Chess {
 		}
 
 		boolean isNewSpotEmpty = true;
-		if (gameboard.chess[currX][prevY] != null) {
-			if (gameboard.chess[currX][prevY].isWhite() == ifWhiteTurn) {
+		if (gameboard.chess[currX][currY] != null) {
+			if (gameboard.chess[currX][currY].isWhite() == ifWhiteTurn) {
 				System.out.println("Illegal move, try again.");
 				return;
 			}
@@ -268,7 +262,7 @@ public class Chess {
 		}
 
 		if (gameboard.castling(prevLoc, currLoc)) {
-			gameboard.chess[newx][newy].first = false;
+			gameboard.chess[currX][currY].first = false;
 
 			ifWhiteTurn = !ifWhiteTurn;
 			return;
@@ -276,26 +270,26 @@ public class Chess {
 
 		if (enPassant == true) {
 			enPassant = false;
-			if (gameboard.doEnPassant(prevX, prevY, currX, prevY) == true) {
-				gameboard.chess[currX][prevY].first = false;
+			if (gameboard.doEnPassant(prevX, prevY, currX, currY) == true) {
+				gameboard.chess[currX][currY].first = false;
 
 				ifWhiteTurn = !ifWhiteTurn;
 				return;
 			}
 		}
 
-		if (gameboard.isClear(prevX, prevY, currX, prevY) == false) {
+		if (gameboard.isClear(prevX, prevY, currX, currY) == false) {
 			System.out.println("Illegal move, try again.");
 			return;
 		}
 
-		if (gameboard.chess[prevX][prevY].allowedMove(prevX, prevY, currX, prevY, isNewSpotEmpty) == false) {
+		if (gameboard.chess[prevX][prevY].allowedMove(prevX, prevY, currX, currY, isNewSpotEmpty) == false) {
 			System.out.println("Illegal move, try again.");
 			return;
 		}
 
-		gameboard.chess[currX][prevY] = gameboard.chess[prevX][prevY];
-		gameboard.chess[currX][prevY].first = false;
+		gameboard.chess[currX][currY] = gameboard.chess[prevX][prevY];
+		gameboard.chess[currX][currY].first = false;
 
 		if (gameboard.chess[prevX][prevY].toString().equalsIgnoreCase("wp") || gameboard.chess[prevX][prevY].toString().equalsIgnoreCase("bp")) {
 			promotePawn(currX, prevY);
@@ -303,7 +297,7 @@ public class Chess {
 
 		gameboard.chess[prevX][prevY] = null;
 
-		if (gameboard.checkEnPassant(prevX, prevY, currX, prevY)) {
+		if (gameboard.checkEnPassant(prevX, prevY, currX, currY)) {
 			System.out.println("en passant");
 		}
 		ifWhiteTurn = !ifWhiteTurn;
